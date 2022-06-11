@@ -1,0 +1,51 @@
+#lütfen unutmayın ki bu bir öğrenci çalışmasıdır. hatalarımı öğrendikçe güncelleneyeceğim
+library(cluster)
+library(factoextra)
+library(NbClust)
+library(Clustering)
+library(clusterR)
+library(cluster.datasets)
+
+#kmeans
+
+data(planets.moons.1970) #cluster.datasets paketindeki
+View(planets.moon.1970)     #planet.moon datasını kullanıyorum.
+str(planets.moons.1970)     
+jarap<-planets.moons.1970[,-c(1)] # virgul solda çünkü sutün sileceğim.
+
+#veriyi normalize ediyorum
+normalizasyon<-scale(jarap)
+
+#kmeans
+kumelerk3<-kmeans(normalizasyon,centers = 3, nstart = 25)
+kumelerk2<-kmeans(normalizasyon,centers = 2, nstart = 25)
+kumelerk3
+kumelerk2
+
+library(factoextra)
+library(NbClust)
+
+kumeler2<-NbClust(normalizasyon,distance = "euclidean", 
+                  min.nc = 2,max.nc = 5,
+                  method = "single", index = "ch")
+
+fviz_cluster(kumelerk3, data = jarap,
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "euclid", 
+             star.plot = TRUE, 
+             repel = TRUE, 
+             ggtheme = theme_minimal()
+)
+
+fviz_cluster(kumelerk2, data = jarap,
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "euclid", 
+             star.plot = TRUE, 
+             repel = TRUE, 
+             ggtheme = theme_minimal()
+)
+
+
+hc<-hclust(dist(normalizasyon),method = "single")
+plot(hc)
+
